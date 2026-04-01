@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Application/" />
+  <Folder Name="/Clients/" />
+  <Folder Name="/Common/" />
+  <Folder Name="/Core/">
+    <Project Path="SD.Core/SD.Core.csproj" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="PPT_WebDeveloper_Architekturen.pdf" />
+    <File Path="PPT_WebDeveloper_Schnittstellen.pdf" />
+    <File Path="Stundenplan 80800.pdf" />
+    <File Path="TextFile1.txt" />
+  </Folder>
+  <Folder Name="/Persistence/" />
+</Solution>
