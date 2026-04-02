@@ -11,5 +11,7 @@
     <File Path="Stundenplan 80800.pdf" />
     <File Path="TextFile1.txt" />
   </Folder>
-  <Folder Name="/Persistence/" />
+  <Folder Name="/Persistence/">
+    <Project Path="SD.Persistence/SD.Persistence.csproj" Id="384f8a32-8984-4b45-8f95-616e37324e6e" />
+  </Folder>
 </Solution>

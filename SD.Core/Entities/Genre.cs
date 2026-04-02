@@ -1,13 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SD.Core.Entities
 {
-    public class Genre
+
+    [Table(name: nameof(Genre) + "s")]
+    public class Genre : IEntity
     {
-        public int Id { get; set; }  
-        public string Name { get; set; } = string.Empty;
+        public Genre() 
+        { 
+            this.Movies = new HashSet<MovieBase>();
+        }
+
+        public virtual int Id { get; set; }
+
+        [MinLength(2)]
+        [MaxLength(64)]
+        [Required]
+        public virtual string Name { get; set; } = string.Empty;
+
+        /* Navigation Property zur Movie-Entität */
+        [JsonIgnore]
+        public virtual ICollection<MovieBase> Movies { get; }
 
     }
 }
