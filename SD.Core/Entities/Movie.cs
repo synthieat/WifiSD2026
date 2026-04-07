@@ -10,6 +10,8 @@ namespace SD.Core.Entities
     {        
         /* Navigation Properties zu Genre und MediumType */
         public virtual Genre Genre { get; set; }
+
+        [ForeignKey(nameof(Movie.MediumTypeCode))]
         public virtual MediumType MediumType { get; set; }  
     }
 }

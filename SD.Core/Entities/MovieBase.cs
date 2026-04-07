@@ -6,9 +6,7 @@ using System.Text;
 
 namespace SD.Core.Entities
 {
-
-   
-    public class MovieBase
+    public abstract class MovieBase
     {
         public virtual Guid Id { get; set; }
 

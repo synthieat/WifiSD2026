@@ -13,7 +13,7 @@ namespace SD.Core.Entities
     {
         public MediumType() 
         { 
-            this.Movies = new HashSet<MovieBase>(); 
+            this.Movies = new HashSet<Movie>(); 
         }
 
         [Key]
@@ -26,6 +26,6 @@ namespace SD.Core.Entities
 
         /*Navigation Property zur Movie-Entität */
         [JsonIgnore]
-        public virtual ICollection<MovieBase> Movies { get; }   
+        public virtual ICollection<Movie> Movies { get; }   
     }
 }
