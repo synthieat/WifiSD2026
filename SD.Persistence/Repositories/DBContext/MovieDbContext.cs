@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SD.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,15 @@ using System.Text;
 
 namespace SD.Persistence.Repositories.DBContext
 {
+    /* EF Migration erstellen über die Package Manager Console:
+     * Add-Migration Initial -Context MovieDbContext -startupProject SD.Persistence
+     * Update-Database -Context MovieDbContext -startupProject SD.Persistence
+     * 
+     * Alternativ über die .NET CLI:
+     * dotnet ef migrations add InitialCreate --context MovieDbContext --startup-project SD.Persistence
+     * dotnet ef database update --context MovieDbContext --startup-project SD.Persistence
+     */
+
     public class MovieDbContext : DbContext
     {
         public MovieDbContext() { }
@@ -106,6 +116,28 @@ namespace SD.Persistence.Repositories.DBContext
                 new Movie { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), Title = "Blade Runner", GenreId = 5, MediumTypeCode = "BD", Price = 13.99M, ReleaseDate = new DateTime(1982, 6, 25) },
                 new Movie { Id = Guid.Parse("00000000-0000-0000-0000-000000000010"), Title = "The Matrix", GenreId = 5, MediumTypeCode = "DVD", Price = 10.99M, ReleaseDate = new DateTime(1999, 3, 31) }
             );
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+#if DEBUG
+            if (currentDirectory.IndexOf("bin") > -1)
+            {
+                currentDirectory = currentDirectory.Substring(0, currentDirectory.IndexOf("bin"));
+            }
+#endif
+
+            var configurationBuilder = new ConfigurationBuilder().SetBasePath(currentDirectory)
+                                                                 .AddJsonFile("AppSettings.json", optional: false, reloadOnChange: true);
+
+            var configuration = configurationBuilder.Build();
+            var connectionString = configuration.GetConnectionString("MovieDbContext");
+
+            optionsBuilder.UseSqlServer(connectionString, opts => opts.CommandTimeout(90));
+
 
         }
     }
