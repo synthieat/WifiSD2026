@@ -20,4 +20,8 @@
     <ProjectReference Include="..\SD.Core\SD.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Movies\" />
+  </ItemGroup>
+
 </Project>

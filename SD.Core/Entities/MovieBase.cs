@@ -6,6 +6,14 @@ using System.Text;
 
 namespace SD.Core.Entities
 {
+    public enum Ratings : byte
+    {
+        Bad = 10,
+        Average = 20,
+        Good = 30,
+        Excellent = 40
+    }
+
     public abstract class MovieBase
     {
         public virtual Guid Id { get; set; }
@@ -20,6 +28,8 @@ namespace SD.Core.Entities
         public virtual decimal Price { get; set; }
 
         public virtual DateTime ReleaseDate { get; set; }
+
+        public virtual Ratings Rating { get; set; }
 
     }
 }

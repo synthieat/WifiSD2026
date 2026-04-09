@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SD.Persistence.Repositories.DBContext;
 
@@ -11,9 +12,11 @@ using SD.Persistence.Repositories.DBContext;
 namespace SD.Persistence.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260409172145_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,9 +131,6 @@ namespace SD.Persistence.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<byte>("Rating")
-                        .HasColumnType("tinyint");
-
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("date");
 
@@ -159,7 +159,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 1,
                             MediumTypeCode = "DVD",
                             Price = 9.99m,
-                            Rating = (byte)30,
                             ReleaseDate = new DateTime(1988, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Die Hard"
                         },
@@ -169,7 +168,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 1,
                             MediumTypeCode = "BD",
                             Price = 14.99m,
-                            Rating = (byte)40,
                             ReleaseDate = new DateTime(2015, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Mad Max: Fury Road"
                         },
@@ -179,7 +177,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 2,
                             MediumTypeCode = "DVD",
                             Price = 7.99m,
-                            Rating = (byte)10,
                             ReleaseDate = new DateTime(1993, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Groundhog Day"
                         },
@@ -189,7 +186,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 2,
                             MediumTypeCode = "BD",
                             Price = 12.99m,
-                            Rating = (byte)20,
                             ReleaseDate = new DateTime(2014, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Grand Budapest Hotel"
                         },
@@ -199,7 +195,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 3,
                             MediumTypeCode = "DVD",
                             Price = 8.99m,
-                            Rating = (byte)10,
                             ReleaseDate = new DateTime(1994, 9, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Shawshank Redemption"
                         },
@@ -209,7 +204,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 3,
                             MediumTypeCode = "BD",
                             Price = 11.99m,
-                            Rating = (byte)40,
                             ReleaseDate = new DateTime(1994, 7, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Forrest Gump"
                         },
@@ -219,7 +213,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 4,
                             MediumTypeCode = "DVD",
                             Price = 9.99m,
-                            Rating = (byte)30,
                             ReleaseDate = new DateTime(1980, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Shining"
                         },
@@ -229,7 +222,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 4,
                             MediumTypeCode = "STREAM",
                             Price = 4.99m,
-                            Rating = (byte)20,
                             ReleaseDate = new DateTime(2018, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "A Quiet Place"
                         },
@@ -239,7 +231,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 5,
                             MediumTypeCode = "BD",
                             Price = 13.99m,
-                            Rating = (byte)20,
                             ReleaseDate = new DateTime(1982, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Blade Runner"
                         },
@@ -249,7 +240,6 @@ namespace SD.Persistence.Migrations
                             GenreId = 5,
                             MediumTypeCode = "DVD",
                             Price = 10.99m,
-                            Rating = (byte)30,
                             ReleaseDate = new DateTime(1999, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "The Matrix"
                         });
