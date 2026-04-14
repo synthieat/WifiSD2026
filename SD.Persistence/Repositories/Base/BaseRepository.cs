@@ -1,4 +1,5 @@
-﻿using SD.Core.Repositories;
+﻿using SD.Core.Entities;
+using SD.Core.Repositories;
 using SD.Persistence.Repositories.DBContext;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace SD.Persistence.Repositories.Base
 
 
         #region [C]REATE
-        void IBaseRepository.Add<T>(T entity, bool saveImmediately)
+        public void Add<T>(T entity, bool saveImmediately = default)
+            where T : class, IEntity
         {
             if (entity == null)
             {
@@ -42,54 +44,174 @@ namespace SD.Persistence.Repositories.Base
             
         }
 
-        Task IBaseRepository.AddAsync<T>(T entity, bool saveImmediately, CancellationToken cancellationToken)
+        public async Task AddAsync<T>(T entity, 
+                                      bool saveImmediately = default, 
+                                      CancellationToken cancellationToken = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(entity == null)
+            {
+                return;
+            }
+
+            this.movieDbContext.Add(entity);
+
+            if (saveImmediately)
+            {
+                await this.movieDbContext.SaveChangesAsync(cancellationToken);
+            }
+            
         }
         #endregion
 
         #region [R}EAD
-        IQueryable<T> IBaseRepository.QueryFrom<T>(Expression<Func<T, bool>> whereFilter)
+        public IQueryable<T> QueryFrom<T>(Expression<Func<T, bool>> whereFilter = null)
+            where T : class, IEntity
+
         {
-            throw new NotImplementedException();
+            var query = this.movieDbContext.Set<T>();
+            
+            if (whereFilter != null)
+            {
+                return query.Where(whereFilter);
+            }
+
+            return query;
         }
         #endregion
 
         #region [U]PDATE
-        T IBaseRepository.Update<T>(T entity, object key, bool saveImmediately)
+        public T Update<T>(T entity, object key, bool saveImmediately = default)
+            where T : class, IEntity
+
         {
-            throw new NotImplementedException();
+            if(entity == null)
+            {
+                return null;
+            }
+
+            var toUpdate = this.movieDbContext.Find<T>(key);
+            if(toUpdate != null)
+            {
+                this.movieDbContext.Entry(toUpdate).CurrentValues.SetValues(entity);
+            }
+
+            if (saveImmediately)
+            {
+                this.movieDbContext.SaveChanges();
+            }
+
+            return toUpdate;
+
         }
 
-        Task<T> IBaseRepository.UpdateAsync<T>(T entity, object key, bool saveImmediately, CancellationToken cancellationToken)
+        public async Task<T> UpdateAsync<T>(T entity,
+                                            object key, 
+                                            bool saveImmediately = default, 
+                                            CancellationToken cancellationToken = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(entity == null)
+            {
+                return null;
+            }
+
+            var toUpdate = await this.movieDbContext.FindAsync<T>(key, cancellationToken);
+            
+            if (toUpdate != null)
+            {
+                this.movieDbContext.Entry(toUpdate).CurrentValues.SetValues(entity);                
+            }
+
+            if (saveImmediately)
+            {
+                await this.movieDbContext.SaveChangesAsync(cancellationToken);
+            }
+
+            return toUpdate;
         }
 
         #endregion
 
         #region [D]ELETE
-        void IBaseRepository.Remove<T>(T entity, bool saveImmediately)
+
+        public void Remove<T>(T entity, bool saveImmediately = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(entity == null)
+            {
+                return;
+            }
+
+            this.movieDbContext.Remove<T>(entity);
+
+            if (saveImmediately)
+            {
+                this.movieDbContext.SaveChanges();
+            }
         }
 
-        Task IBaseRepository.RemoveAsync<T>(T entity, bool saveImmediately, CancellationToken cancellationToken)
+        public async Task RemoveAsync<T>(T entity, 
+                                         bool saveImmediately = default, 
+                                         CancellationToken cancellationToken = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(entity == null)
+            {
+                return;
+            }
+
+            this.movieDbContext.Remove<T>(entity);
+
+            if (saveImmediately)
+            {
+                await this.movieDbContext.SaveChangesAsync(cancellationToken);
+            }
         }
 
-        void IBaseRepository.RemoveByKey<T>(object key, bool saveImmediately)
+        public void RemoveByKey<T>(object key, bool saveImmediately = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(key == null)
+            {
+                return;
+            }
+
+            var toRemove = this.movieDbContext.Find<T>(key);
+            if(toRemove != null)
+            {
+                this.movieDbContext.Remove<T>(toRemove);               
+            }
+
+            if (saveImmediately)
+            {
+                this.movieDbContext.SaveChanges();
+            }
         }
 
-        Task IBaseRepository.RemoveByKeyAsync<T>(object key, bool saveImmediately, CancellationToken cancellationToken)
+        public async Task RemoveByKeyAsync<T>(object key, 
+                                              bool saveImmediately = default, 
+                                              CancellationToken cancellationToken = default)
+            where T : class, IEntity
         {
-            throw new NotImplementedException();
+            if(key == null)
+            {
+                return;
+            }
+
+            var toRemove = await this.movieDbContext.FindAsync<T>(key, cancellationToken);
+            if(toRemove != null)
+            {
+                this.movieDbContext.Remove<T>(toRemove);               
+            }
+
+            if (saveImmediately)
+            {
+                await this.movieDbContext.SaveChangesAsync(cancellationToken);
+            }
         }
 
-        #endregion
+        #endregion  
 
 
     }
