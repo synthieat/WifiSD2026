@@ -9,5 +9,22 @@ namespace SD.Core.Application.Results
     {
         public string GenreName { get; set; }
         public string MediumTypeName { get; set; }
+
+
+        public static MovieDto MapFrom(Movie movie)
+        {
+            return new MovieDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                GenreId = movie.GenreId,
+                GenreName = movie.Genre.Name,
+                MediumTypeCode = movie.MediumTypeCode,
+                MediumTypeName = movie.MediumType.Name,
+                ReleaseDate = movie.ReleaseDate,
+                Rating = movie.Rating
+
+            };
+        }
     }
 }

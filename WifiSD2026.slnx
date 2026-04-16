@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/Application/" />
+  <Folder Name="/Application/">
+    <Project Path="SD.Application/SD.Application.csproj" Id="06fd10aa-dc5b-4ecd-9197-9779d58aa91f" />
+  </Folder>
   <Folder Name="/Clients/" />
   <Folder Name="/Common/" />
   <Folder Name="/Core/">
