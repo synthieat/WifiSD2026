@@ -38,5 +38,8 @@ namespace SD.Core.Repositories
         Task RemoveByKeyAsync<T>(object key, bool saveImmediately = false, CancellationToken cancellationToken = default)
             where T : class, IEntity;
 
+        void SaveChanges();
+        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+
     }
 }

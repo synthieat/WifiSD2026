@@ -213,6 +213,14 @@ namespace SD.Persistence.Repositories.Base
 
         #endregion  
 
+        public void SaveChanges()
+        {
+            this.movieDbContext.SaveChanges();
+        }
 
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            await this.movieDbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }
