@@ -1,11 +1,13 @@
 ﻿using Mediator;
 using SD.Core.Application.Commands;
 using SD.Core.Application.Results;
+using SD.Core.Attributes;
 using SD.Core.Entities;
 using SD.Core.Repositories.Movies;
 
 namespace SD.Application.Movies
 {
+    [MapServiceDependency(nameof(MovieCommandHandler))]
     public class MovieCommandHandler : BaseHandler, ICommandHandler<CreateMovieDtoCommand, MovieDto>,
                                                     ICommandHandler<UpdateMovieDtoCommand, MovieDto>,
                                                     ICommandHandler<DeleteMovieDtoCommand>

@@ -1,7 +1,9 @@
 ﻿using Mediator;
 using Microsoft.EntityFrameworkCore;
+using SD.Application.Movies;
 using SD.Core.Application.Queries;
 using SD.Core.Application.Results;
+using SD.Core.Attributes;
 using SD.Core.Entities;
 using SD.Core.Repositories.Movies;
 using System;
@@ -10,6 +12,7 @@ using System.Text;
 
 namespace SD.Application.Movies
 {
+    [MapServiceDependency(nameof(MovieQueryHandler))]
     public class MovieQueryHandler : IQueryHandler<GetMovieDtoQuery, MovieDto>,
                                      IQueryHandler<GetMovieDtosQuery, IEnumerable<MovieDto>>,
                                      IQueryHandler<GetGenresQuery, IEnumerable<Genre>>,
@@ -25,8 +28,9 @@ namespace SD.Application.Movies
         public async ValueTask<MovieDto> Handle(GetMovieDtoQuery query,
                                                 CancellationToken cancellationToken)
         {
-            var result = await this.GetMovieDtoQuery()
+            var result = await this.GetMovieQuery()
                                    .Where(w => w.Id == query.Id)
+                                   .Select(s => MovieDto.MapFrom(s))
                                    .FirstOrDefaultAsync(cancellationToken);
 
             if (result != null)
@@ -40,10 +44,11 @@ namespace SD.Application.Movies
 
         public async ValueTask<IEnumerable<MovieDto>> Handle(GetMovieDtosQuery query, CancellationToken cancellationToken)
         {
-            var movieDtoQuery = this.GetMovieDtoQuery()
+            var movieDtoQuery = this.GetMovieQuery()
                                     .Where(w => (!query.GenreId.HasValue || w.GenreId == query.GenreId.Value) 
                                           && (string.IsNullOrWhiteSpace(query.MediumTypeCode) || w.MediumTypeCode == query.MediumTypeCode)
                                           && (string.IsNullOrWhiteSpace(query.SearchText) || w.Title.Contains(query.SearchText)))
+                                    .Select(s => MovieDto.MapFrom(s))
                                     .Skip(query.Skip) /* Pagination: Skip / Take
                                                          Achtung: Immer zuerst Skip, dann Take, da sonst die falschen Datensätze übersprungen werden! */
                                     .Take(query.Take);
@@ -82,12 +87,13 @@ namespace SD.Application.Movies
                                              .ToListAsync(cancellationToken);
         }
 
-        private IQueryable<MovieDto> GetMovieDtoQuery()
+        private IQueryable<Movie> GetMovieQuery()
         {
             return this.movieRepository.QueryFrom<Movie>()
                                        .Include(i => i.Genre)
-                                       .Include(i => i.MediumType)
-                                       .Select(s => MovieDto.MapFrom(s));
+                                       .Include(i => i.MediumType);
+                                       
+                                       
         }
     }
 }
