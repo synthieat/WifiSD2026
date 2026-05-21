@@ -18,9 +18,9 @@ namespace SD.Core.Application.Results
                 Id = movie.Id,
                 Title = movie.Title,
                 GenreId = movie.GenreId,
-                GenreName = movie.Genre.Name,
+                GenreName = movie.Genre?.Name ?? string.Empty,
                 MediumTypeCode = movie.MediumTypeCode,
-                MediumTypeName = movie.MediumType.Name,
+                MediumTypeName = movie.MediumType?.Name ?? string.Empty,
                 ReleaseDate = movie.ReleaseDate,
                 Rating = movie.Rating
 
