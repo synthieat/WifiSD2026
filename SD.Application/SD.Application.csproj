@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.3.10" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SD.Common\SD.Common.csproj" />
     <ProjectReference Include="..\SD.Persistence\SD.Persistence.csproj" />
   </ItemGroup>
 

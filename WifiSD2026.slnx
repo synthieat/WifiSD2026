@@ -11,7 +11,9 @@
     <File Path="Stundenplan 80800.pdf" />
     <File Path="TextFile1.txt" />
   </Folder>
-  <Folder Name="/Common/" />
+  <Folder Name="/Common/">
+    <Project Path="SD.Common/SD.Common.csproj" Id="9e285025-3934-43a8-8634-1865802bb12b" />
+  </Folder>
   <Folder Name="/Core/">
     <Project Path="SD.Core/SD.Core.csproj" />
   </Folder>

@@ -4,6 +4,8 @@ using Microsoft.OpenApi;
 using SD.Application.Extensions;
 using SD.Persistence.Extensions;
 using SD.Persistence.Repositories.DBContext;
+using Microsoft.AspNetCore.OpenApi;
+using Scalar.AspNetCore;
 
 namespace SD.WS
 {
@@ -31,7 +33,24 @@ namespace SD.WS
             });
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    document.Info = new()
+                    {
+                        Title = "Wifi SW-Developer 2025-2026 API",
+                        Version = "v1",
+                        Contact = new()
+                        {
+                            Name = "Horst Schneider",
+                            Email = "horst.schneider@hotmail.com",
+                            Url = new Uri("http://www.syntpop.at")
+                        }
+                    };
+                    return Task.CompletedTask;
+                });
+            });
 
 
             /* DBContext registrieren */
@@ -49,12 +68,25 @@ namespace SD.WS
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                /* Swagger */
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.MapOpenApi();
+
+                /* Microsoft Scalar */
+                app.MapOpenApi();          // /openapi/v1.json
+                app.MapScalarApiReference(options =>
+                {
+                    options
+                        .WithTitle("Wifi SW-Developer 2025-2026 API")
+                        .WithTheme(ScalarTheme.Purple)
+                        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+                }); // /scalar
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseRouting();
 
             app.UseAuthorization();
 

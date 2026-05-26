@@ -11,7 +11,6 @@ namespace SD.WS.Controllers
     public class MovieController : MediatorBaseController
     {
               
-
         [HttpGet(nameof(MovieDto) + ID_PARAMETER)]
         public async Task<MovieDto> GetMovieDto([FromRoute] GetMovieDtoQuery query, CancellationToken cancellationToken)
         {
@@ -25,6 +24,7 @@ namespace SD.WS.Controllers
             return await Mediator.Send(query, cancellationToken);
         }
 
+
         [HttpPost(nameof(MovieDto))]
         [ProducesResponseType(typeof(MovieDto), StatusCodes.Status201Created)]
         public async Task<MovieDto> CreateMovieDto(CancellationToken cancellationToken)
@@ -32,5 +32,20 @@ namespace SD.WS.Controllers
             var result = await base.Mediator.Send(new CreateMovieDtoCommand(), cancellationToken);
             return base.SetLocationUri<MovieDto>(result, result.Id.ToString());
         }
+
+
+        [HttpPut(nameof(MovieDto) + ID_PARAMETER)]
+        public async Task<MovieDto> UpdateMovieDto([FromRoute] Guid Id, [FromBody] MovieDto movieDto, CancellationToken cancellationToken)
+        {
+            return await base.Mediator.Send(new UpdateMovieDtoCommand { Id = Id, MovieDto = movieDto }, cancellationToken);
+
+        }
+
+        [HttpDelete(nameof(MovieDto) + ID_PARAMETER)]
+        public async Task DeleteMovieDto([FromRoute] DeleteMovieDtoCommand command, CancellationToken cancellationToken)
+        {
+            await base.Mediator.Send(command, cancellationToken);
+        }
+         
     }
 }
