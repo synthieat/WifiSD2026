@@ -32,7 +32,24 @@ namespace SD.WS
                     Contact = new OpenApiContact { Email = "horst.schneider@hotmail.com", 
                                                    Url = new Uri("http://www.syntpop.at"), Name = "Horst Schneider"}
 
-                    });
+                });
+
+                g.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authentication header using basic scheme"
+                });
+
+                g.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecuritySchemeReference("basic", document, null),
+                        new List<string>()
+                    }
+                });
+
             });
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -51,6 +68,29 @@ namespace SD.WS
                             Url = new Uri("http://www.syntpop.at")
                         }
                     };
+
+                    // Basic Authentication für Scalar hinzufügen
+                    document.Components ??= new();
+                    document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                    document.Components.SecuritySchemes["basic"] = new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "basic",
+                        In = ParameterLocation.Header,
+                        Description = "Basic Authentication header using basic scheme"
+                    };
+
+                    return Task.CompletedTask;
+                });
+
+                options.AddOperationTransformer((operation, context, cancellationToken) =>
+                {
+                    operation.Security ??= new List<OpenApiSecurityRequirement>();
+
+                    var securityRequirement = new OpenApiSecurityRequirement();
+                    securityRequirement.Add(new OpenApiSecuritySchemeReference("basic"), new List<string>());
+                    operation.Security.Add(securityRequirement);
+
                     return Task.CompletedTask;
                 });
             });
