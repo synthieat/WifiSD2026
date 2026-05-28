@@ -23,6 +23,14 @@ namespace SD.WS
 
             builder.Services.AddEndpointsApiExplorer();
 
+            var openApiSecuritySchema = new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http, /* Protokoll */
+                Scheme = "basic", /* Authentication Scheme, basic, bearer */
+                In = ParameterLocation.Header, /* In den Http-Header einfügen */
+                Description = "Basic Authentication header using basic scheme" /* Beschreibung */
+            };
+
             builder.Services.AddSwaggerGen(g =>
             {
                 g.SwaggerDoc("v1", new OpenApiInfo
@@ -33,14 +41,9 @@ namespace SD.WS
                                                    Url = new Uri("http://www.syntpop.at"), Name = "Horst Schneider"}
 
                 });
+                             
 
-                g.AddSecurityDefinition("basic", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "basic",
-                    In = ParameterLocation.Header,
-                    Description = "Basic Authentication header using basic scheme"
-                });
+                g.AddSecurityDefinition("basic", openApiSecuritySchema);
 
                 g.AddSecurityRequirement(document => new OpenApiSecurityRequirement
                 {
@@ -72,14 +75,8 @@ namespace SD.WS
                     // Basic Authentication für Scalar hinzufügen
                     document.Components ??= new();
                     document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
-                    document.Components.SecuritySchemes["basic"] = new OpenApiSecurityScheme
-                    {
-                        Type = SecuritySchemeType.Http,
-                        Scheme = "basic",
-                        In = ParameterLocation.Header,
-                        Description = "Basic Authentication header using basic scheme"
-                    };
-
+                    document.Components.SecuritySchemes["basic"] = openApiSecuritySchema;
+                  
                     return Task.CompletedTask;
                 });
 
