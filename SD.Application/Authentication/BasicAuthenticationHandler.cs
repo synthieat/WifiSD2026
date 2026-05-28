@@ -43,7 +43,7 @@ namespace SD.Application.Authentication
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 // var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new char[] { ':' }, 2);
                 /* Benutzername und Passwort aus dem Byte-Array extrahieren */
-                var credentials = Encoding.UTF8.GetString(credentialBytes).Split([':'], 2);
+                var credentials = Encoding.UTF8.GetString(credentialBytes).Split([':'], 2); /*username:password*/
                 var username = credentials[0];
                 var password = credentials[1];
 

@@ -6,6 +6,9 @@ using SD.Persistence.Extensions;
 using SD.Persistence.Repositories.DBContext;
 using Microsoft.AspNetCore.OpenApi;
 using Scalar.AspNetCore;
+using SD.Common.Services;
+using SD.Application.Authentication;
+using Microsoft.AspNetCore.Authentication;
 
 namespace SD.WS
 {
@@ -57,6 +60,15 @@ namespace SD.WS
             var connectionString = builder.Configuration.GetConnectionString("MovieDbContext");
             builder.Services.AddDbContext<MovieDbContext>(options => options.UseSqlServer(connectionString));
 
+            /* User Service zur Service-Collection hinzugefügt. */
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            /* BasicAuthentication Handler registrieren */
+            builder.Services.AddAuthentication(nameof(BasicAuthenticationHandler))
+                            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(nameof(BasicAuthenticationHandler), null);
+
+            builder.Services.AddAuthorization();
+
             builder.Services.RegisterRepositories();
             builder.Services.RegisterApplicationServices();
             builder.Services.AddMediator(cfg => cfg.ServiceLifetime = ServiceLifetime.Scoped);
@@ -88,7 +100,11 @@ namespace SD.WS
             app.UseStaticFiles();
             app.UseRouting();
 
+            /* Uses für Authentifizierung und Autorisierung aufrufen
+             * UseAuthentication immer vor UseAuthorization anführen */
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
 
             app.MapControllers();
