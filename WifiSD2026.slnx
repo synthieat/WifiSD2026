@@ -3,6 +3,7 @@
     <Project Path="SD.Application/SD.Application.csproj" Id="06fd10aa-dc5b-4ecd-9197-9779d58aa91f" />
   </Folder>
   <Folder Name="/Clients/">
+    <Project Path="SD.Web/SD.Web.csproj" Id="45074e22-131e-4fc7-875a-5ac4b1729f1f" />
     <Project Path="SD.WS/SD.WS.csproj" Id="1a1d4f4e-ec86-4b22-83b2-136adefb9b29" />
   </Folder>
   <Folder Name="/Clients/Docs/">
