@@ -133,6 +133,51 @@ namespace SD.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unrated.
+        /// </summary>
+        public static string Ratings_0 {
+            get {
+                return ResourceManager.GetString("Ratings_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad.
+        /// </summary>
+        public static string Ratings_10 {
+            get {
+                return ResourceManager.GetString("Ratings_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string Ratings_20 {
+            get {
+                return ResourceManager.GetString("Ratings_20", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good.
+        /// </summary>
+        public static string Ratings_30 {
+            get {
+                return ResourceManager.GetString("Ratings_30", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excellent.
+        /// </summary>
+        public static string Ratings_40 {
+            get {
+                return ResourceManager.GetString("Ratings_40", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Release date.
         /// </summary>
         public static string ReleaseDate {

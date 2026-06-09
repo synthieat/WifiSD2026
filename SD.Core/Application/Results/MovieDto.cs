@@ -1,4 +1,5 @@
 ﻿using SD.Core.Entities;
+using SD.Core.EnumDescriptors;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,8 @@ namespace SD.Core.Application.Results
     {
         public string GenreName { get; set; }
         public string MediumTypeName { get; set; }
+
+        public string LocalizedRating { get; set; }
 
 
         public static MovieDto MapFrom(Movie movie)
@@ -22,7 +25,8 @@ namespace SD.Core.Application.Results
                 MediumTypeCode = movie.MediumTypeCode,
                 MediumTypeName = movie.MediumType?.Name ?? string.Empty,
                 ReleaseDate = movie.ReleaseDate,
-                Rating = movie.Rating
+                Rating = movie.Rating,
+                LocalizedRating = RatingsDescriptor.FromEnum(movie.Rating).ToString()
 
             };
         }

@@ -141,6 +141,21 @@
   <data name="Rating" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="Ratings_0" xml:space="preserve">
+    <value>Unrated</value>
+  </data>
+  <data name="Ratings_10" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="Ratings_20" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Ratings_30" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="Ratings_40" xml:space="preserve">
+    <value>Excellent</value>
+  </data>
   <data name="ReleaseDate" xml:space="preserve">
     <value>Release date</value>
   </data>

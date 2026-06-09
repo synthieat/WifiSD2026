@@ -9,6 +9,7 @@ namespace SD.Core.Entities
 {
     public enum Ratings : byte
     {
+        Unrated = 0,
         Bad = 10,
         Average = 20,
         Good = 30,
