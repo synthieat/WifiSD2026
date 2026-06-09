@@ -22,9 +22,10 @@ namespace SD.Core.Application.Results
                 Title = movie.Title,
                 GenreId = movie.GenreId,
                 GenreName = movie.Genre?.Name ?? string.Empty,
-                MediumTypeCode = movie.MediumTypeCode,
+                MediumTypeCode = movie.MediumTypeCode,               
                 MediumTypeName = movie.MediumType?.Name ?? string.Empty,
                 ReleaseDate = movie.ReleaseDate,
+                Price = movie.Price,
                 Rating = movie.Rating,
                 LocalizedRating = RatingsDescriptor.FromEnum(movie.Rating).ToString()
 

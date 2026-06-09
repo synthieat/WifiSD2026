@@ -28,23 +28,10 @@ namespace SD.Web.Controllers
         }
 
         // GET: Movies/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details([FromRoute] GetMovieDtoQuery query, CancellationToken cancellationToken)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movie = await _context.Movies
-                .Include(m => m.Genre)
-                .Include(m => m.MediumType)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return View(movie);
+            var movieDto = await base.Mediator.Send(query, cancellationToken);
+            return View(movieDto);
         }
 
         // GET: Movies/Create
