@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SD.Core.Application.Queries;
 using SD.Core.Entities;
 using SD.Persistence.Repositories.DBContext;
 
 namespace SD.Web.Controllers
 {
-    public class MoviesController : Controller
+    public class MoviesController : MediatorBaseController
     {
         private readonly MovieDbContext _context;
 
@@ -20,10 +21,10 @@ namespace SD.Web.Controllers
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] GetMovieDtosQuery query, CancellationToken cancellationToken)
         {
-            var movieDbContext = _context.Movies.Include(m => m.Genre).Include(m => m.MediumType);
-            return View(await movieDbContext.ToListAsync());
+            var movieDtos = await base.Mediator.Send(query, cancellationToken);            
+            return View(movieDtos);
         }
 
         // GET: Movies/Details/5

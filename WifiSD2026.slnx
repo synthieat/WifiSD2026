@@ -14,6 +14,7 @@
   </Folder>
   <Folder Name="/Common/">
     <Project Path="SD.Common/SD.Common.csproj" Id="9e285025-3934-43a8-8634-1865802bb12b" />
+    <Project Path="SD.Resources/SD.Resources.csproj" Id="83e1ac99-bea5-4818-8668-5e5314775e6d" />
   </Folder>
   <Folder Name="/Core/">
     <Project Path="SD.Core/SD.Core.csproj" />

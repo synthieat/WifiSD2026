@@ -1,41 +1,22 @@
-@model IEnumerable<SD.Core.Entities.Movie>
+@model IEnumerable<MovieDto>
 
 @{
     ViewData["Title"] = "Movies";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+<h1>Index</h1>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MediumType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
+            <th>@BasicRes.Genre</th>
+            <th>@BasicRes.MediumType</th>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Price)</th>
+            <th>@Html.DisplayNameFor(model => model.ReleaseDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Rating)</th>
             <th></th>
         </tr>
     </thead>
@@ -43,10 +24,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Genre.Name)
+                @Html.DisplayFor(modelItem => item.GenreName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MediumType.Code)
+                @Html.DisplayFor(modelItem => item.MediumTypeCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -65,9 +46,6 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-        </tr>
-}
+        </tr>}
     </tbody>
 </table>
-</body>
-</html>
