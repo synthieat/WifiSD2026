@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SD.Core.Application.Commands;
 using SD.Core.Application.Queries;
+using SD.Core.Application.Results;
 using SD.Core.Entities;
 using SD.Core.EnumDescriptors;
 using SD.Persistence.Repositories.DBContext;
@@ -58,8 +59,7 @@ namespace SD.Web.Controllers
 
             /* ViewDate = ViewBag */
 
-            this.InitMovieDtoNavigationProperties(movieDto.GenreId, movieDto.MediumTypeCode, movieDto.Rating);
-          
+            await this.InitMovieDtoNavigationProperties(movieDto.GenreId, movieDto.MediumTypeCode, movieDto.Rating, cancellationToken);          
             return View(movieDto);
         }
 
@@ -163,11 +163,11 @@ namespace SD.Web.Controllers
             var mediumTypeCodes = await base.Mediator.Send(new GetMediumTypesQuery(), cancellationToken);
             var mediumTypeCodeList = new SelectList(mediumTypeCodes, nameof(MediumType.Code), nameof(MediumType.Name), mediumTypeCode);
 
-            var ratingDesciptors = RatingsDescriptor.All.Select(s => new { Rating = (int)s.Enum, RatingName = s.Enum.ToString() }).ToList();
+            var ratingDesciptors = RatingsDescriptor.All.Select(s => new { Rating = (int)s.Enum, RatingName = s.ToString() }).ToList();
             var ratingsList = new SelectList(ratingDesciptors, "Rating", "RatingName", (int)ratings);
 
             ViewBag.GenreId = genreSelectList;
-            ViewData["MediumTypeCd"] = mediumTypeCodeList;
+            ViewData[nameof(MovieDto.MediumTypeCode)] = mediumTypeCodeList;
             ViewBag.Ratings = ratingsList;
         }
 
