@@ -1,13 +1,15 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using SD.Core.Application.Commands;
+using SD.Core.Application.Queries;
+using SD.Core.Entities;
+using SD.Core.EnumDescriptors;
+using SD.Persistence.Repositories.DBContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SD.Core.Application.Queries;
-using SD.Core.Entities;
-using SD.Persistence.Repositories.DBContext;
 
 namespace SD.Web.Controllers
 {
@@ -34,6 +36,8 @@ namespace SD.Web.Controllers
             return View(movieDto);
         }
 
+
+        /* Nicht notwendig, weil mit POST immer eine neue Movie Entität angelegt wird
         // GET: Movies/Create
         public IActionResult Create()
         {
@@ -41,24 +45,22 @@ namespace SD.Web.Controllers
             ViewData["MediumTypeCode"] = new SelectList(_context.MediumTypes, "Code", "Code");
             return View();
         }
+        */
 
         // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,GenreId,MediumTypeCode,Price,ReleaseDate,Rating")] Movie movie)
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
-            {
-                movie.Id = Guid.NewGuid();
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name", movie.GenreId);
-            ViewData["MediumTypeCode"] = new SelectList(_context.MediumTypes, "Code", "Code", movie.MediumTypeCode);
-            return View(movie);
+            var movieDto = await base.Mediator.Send(new CreateMovieDtoCommand(), cancellationToken);
+
+            /* ViewDate = ViewBag */
+
+            this.InitMovieDtoNavigationProperties(movieDto.GenreId, movieDto.MediumTypeCode, movieDto.Rating);
+          
+            return View(movieDto);
         }
 
         // GET: Movies/Edit/5
@@ -74,6 +76,7 @@ namespace SD.Web.Controllers
             {
                 return NotFound();
             }
+
             ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name", movie.GenreId);
             ViewData["MediumTypeCode"] = new SelectList(_context.MediumTypes, "Code", "Code", movie.MediumTypeCode);
             return View(movie);
@@ -150,6 +153,24 @@ namespace SD.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        private async Task InitMovieDtoNavigationProperties(int? genreId, string mediumTypeCode = default, Ratings? ratings = default, CancellationToken cancellationToken = default)
+        {
+
+            var genres = await base.Mediator.Send(new GetGenresQuery(), cancellationToken);
+            var genreSelectList = new SelectList(genres, nameof(Genre.Id), nameof(Genre.Name), genreId);
+
+            var mediumTypeCodes = await base.Mediator.Send(new GetMediumTypesQuery(), cancellationToken);
+            var mediumTypeCodeList = new SelectList(mediumTypeCodes, nameof(MediumType.Code), nameof(MediumType.Name), mediumTypeCode);
+
+            var ratingDesciptors = RatingsDescriptor.All.Select(s => new { Rating = (int)s.Enum, RatingName = s.Enum.ToString() }).ToList();
+            var ratingsList = new SelectList(ratingDesciptors, "Rating", "RatingName", (int)ratings);
+
+            ViewBag.GenreId = genreSelectList;
+            ViewData["MediumTypeCd"] = mediumTypeCodeList;
+            ViewBag.Ratings = ratingsList;
+        }
+
 
         private bool MovieExists(Guid id)
         {

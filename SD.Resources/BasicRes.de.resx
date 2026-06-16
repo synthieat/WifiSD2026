@@ -159,6 +159,9 @@
   <data name="ReleaseDate" xml:space="preserve">
     <value>VÖ-Datum</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
   </data>

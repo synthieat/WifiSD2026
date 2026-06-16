@@ -1,17 +1,10 @@
-@model SD.Core.Entities.Movie
+@model MovieDto
 
 @{
     ViewData["Title"] = "Movies";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
+<h1>@BasicRes.New</h1>
 
 <h4>Movie</h4>
 <hr />
@@ -33,25 +26,28 @@
                 <select asp-for="MediumTypeCode" class ="form-control" asp-items="ViewBag.MediumTypeCode"></select>
             </div>
             <div class="form-group">
+                 <label asp-for="Price" class="control-label"></label>
+                 <input asp-for="Price" class="form-control" />
+                 <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ReleaseDate" class="control-label"></label>
                 <input asp-for="ReleaseDate" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Rating" class="control-label"></label>
-                <select asp-for="Rating" class="form-control"></select>
+                <select asp-for="Rating" class="form-control" asp-items="ViewBag.Ratings"></select>
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@BasicRes.Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@BasicRes.BackToList</a>
 </div>
 
-</body>
-</html>
