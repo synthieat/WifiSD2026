@@ -20,7 +20,9 @@ namespace SD.Core.Entities
     {
         public virtual Guid Id { get; set; }
 
-        [MinLength(1), MaxLength(128)]
+        [MinLength(1, ErrorMessageResourceName = "MinLength", ErrorMessageResourceType = typeof(BasicRes)), 
+         MaxLength(128, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(BasicRes))]
+        [Required(ErrorMessageResourceName = "IsRequired", ErrorMessageResourceType = typeof(BasicRes))]
         [Display(Name = nameof(MovieBase.Title), ResourceType = typeof(BasicRes))]
         public virtual string Title { get; set; }
 
@@ -30,10 +32,12 @@ namespace SD.Core.Entities
         [Display(Name = "MediumType", ResourceType = typeof(BasicRes))]
         public virtual string? MediumTypeCode { get; set; }
 
+        [Required(ErrorMessageResourceName = "IsRequired", ErrorMessageResourceType = typeof(BasicRes))]
         [Display(Name = nameof(MovieBase.Price), ResourceType = typeof(BasicRes))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N}")]
         public virtual decimal Price { get; set; }
 
+        [Required(ErrorMessageResourceName = "IsRequired", ErrorMessageResourceType = typeof(BasicRes))]
         [Display(Name = nameof(MovieBase.ReleaseDate), ResourceType = typeof(BasicRes))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public virtual DateTime ReleaseDate { get; set; }
