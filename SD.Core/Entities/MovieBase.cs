@@ -31,9 +31,11 @@ namespace SD.Core.Entities
         public virtual string? MediumTypeCode { get; set; }
 
         [Display(Name = nameof(MovieBase.Price), ResourceType = typeof(BasicRes))]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N}")]
         public virtual decimal Price { get; set; }
 
         [Display(Name = nameof(MovieBase.ReleaseDate), ResourceType = typeof(BasicRes))]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public virtual DateTime ReleaseDate { get; set; }
 
         [Display(Name = nameof(MovieBase.Rating), ResourceType = typeof(BasicRes))]
