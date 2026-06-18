@@ -58,7 +58,6 @@ namespace SD.Web.Controllers
             var movieDto = await base.Mediator.Send(new CreateMovieDtoCommand(), cancellationToken);
 
             /* ViewDate = ViewBag */
-
             await this.InitMovieDtoNavigationProperties(movieDto.GenreId, movieDto.MediumTypeCode, movieDto.Rating, cancellationToken);          
             return View(movieDto);
         }
@@ -87,9 +86,9 @@ namespace SD.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,GenreId,MediumTypeCode,Price,ReleaseDate,Rating")] Movie movie)
+        public async Task<IActionResult> Edit([FromRoute]Guid id, [FromForm]MovieDto movieDto, CancellationToken cancellationToken)
         {
-            if (id != movie.Id)
+            if (id != movieDto.Id)
             {
                 return NotFound();
             }
@@ -98,25 +97,29 @@ namespace SD.Web.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
+                    var command = new UpdateMovieDtoCommand { Id = id, MovieDto = movieDto };
+                    await this.Mediator.Send(command, cancellationToken);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch(Exception ex)
                 {
-                    if (!MovieExists(movie.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
+                //catch (DbUpdateConcurrencyException)
+                //{
+                    //if (!MovieExists(movie.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                //}
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name", movie.GenreId);
-            ViewData["MediumTypeCode"] = new SelectList(_context.MediumTypes, "Code", "Code", movie.MediumTypeCode);
-            return View(movie);
+
+            await this.InitMovieDtoNavigationProperties(movieDto.GenreId, movieDto.MediumTypeCode, movieDto.Rating, cancellationToken);
+            return View(movieDto);
         }
 
         // GET: Movies/Delete/5
