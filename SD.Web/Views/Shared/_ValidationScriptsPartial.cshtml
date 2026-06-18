@@ -36,8 +36,8 @@
 <environment include="Development">
     <script src="~/lib/jquery-validation-globalize.1.1.0/jquery.validate.globalize.js"></script>    
 </environment>
-<environment exclude="Develoment">
+<environment exclude="Development">
     <script src="~/lib/jquery-validation-globalize.1.1.0/jquery.validate.globalize.min.js"></script>
 </environment>
 
-<script src="/js/glob"
+<script src="~/js/globalize/jquery-globalize-@(ViewBag.LocaleName).js"></script>
