@@ -9,7 +9,9 @@
 
   <ItemGroup>
     <PackageReference Include="cldrjs" Version="0.5.1" />
+    <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="jquery-globalize" Version="1.4.2" />
+    <PackageReference Include="jQuery.Validation" Version="1.21.0" />
     <PackageReference Include="jQuery.Validation.Globalize" Version="1.1.0" />
     <PackageReference Include="Mediator.SourceGenerator" Version="3.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +25,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <PackageReference Include="NuGet.Packaging" Version="7.6.0" />
+    <PackageReference Include="NuGet.Protocol" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
